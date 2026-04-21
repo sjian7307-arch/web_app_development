@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow border-0 mx-auto" style="max-width: 600px;">
+    <div class="card-header bg-white py-3">
+        <h4 class="mb-0 fw-bold text-dark">舉辦新活動</h4>
+    </div>
+    <div class="card-body p-4">
+        <form action="{{ url_for('event.create_event') }}" method="POST">
+            <div class="mb-3">
+                <label for="title" class="form-label fw-semibold">活動標題 <span class="text-danger">*</span></label>
+                <input type="text" class="form-control bg-light" id="title" name="title" required placeholder="例如：Python 網頁開發工作坊">
+            </div>
+            <div class="mb-3">
+                <label for="capacity" class="form-label fw-semibold">人數上限 <span class="text-danger">*</span></label>
+                <input type="number" class="form-control bg-light" id="capacity" name="capacity" min="1" required placeholder="例如：30">
+            </div>
+            <div class="mb-3">
+                <label for="schedule" class="form-label fw-semibold">行程表 <span class="text-danger">*</span></label>
+                <textarea class="form-control bg-light" id="schedule" name="schedule" rows="3" required placeholder="13:00 - 報到&#10;13:30 - 開場..."></textarea>
+            </div>
+            <div class="mb-4">
+                <label for="description" class="form-label fw-semibold">活動詳細描述</label>
+                <textarea class="form-control bg-light" id="description" name="description" rows="4" placeholder="向大家介紹你的活動..."></textarea>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-lg shadow-sm">建立活動</button>
+                <a href="{{ url_for('event.index') }}" class="btn btn-light">取消</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow border-0 mb-4">
+    <div class="card-body p-5">
+        <h2 class="card-title text-primary fw-bold mb-4">{{ event.title }}</h2>
+        
+        <div class="row mb-3">
+            <div class="col-md-3 text-muted fw-semibold">人數上限</div>
+            <div class="col-md-9">{{ event.capacity }} 人</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3 text-muted fw-semibold">建立時間</div>
+            <div class="col-md-9">{{ event.created_at }}</div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-3 text-muted fw-semibold">活動描述</div>
+            <div class="col-md-9 bg-light p-3 rounded" style="white-space: pre-wrap;">{{ event.description or '無描述' }}</div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-3 text-muted fw-semibold">行程表</div>
+            <div class="col-md-9 bg-light p-3 rounded" style="white-space: pre-wrap; font-family: monospace;">{{ event.schedule }}</div>
+        </div>
+        
+        <div class="mt-5 pt-4 border-top text-center text-md-start">
+            <a href="{{ url_for('registration.new_registration', event_id=event.id) }}" class="btn btn-success btn-lg px-5 shadow-sm">我要報名</a>
+            <a href="{{ url_for('event.index') }}" class="btn btn-outline-secondary btn-lg ms-md-2 mt-3 mt-md-0">返回列表</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

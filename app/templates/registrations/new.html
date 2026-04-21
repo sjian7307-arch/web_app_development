@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow border-0 mx-auto" style="max-width: 600px;">
+    <div class="card-header bg-white py-3">
+        <h4 class="mb-0 fw-bold text-dark">活動報名</h4>
+    </div>
+    <div class="card-body p-4">
+        <h5 class="text-primary fw-bold mb-4">{{ event.title }}</h5>
+        
+        {% if is_full %}
+            <div class="alert alert-danger text-center p-4 rounded-3 shadow-sm">
+                <h4 class="alert-heading fw-bold mb-3">抱歉，活動已額滿！</h4>
+                <p class="mb-0">此活動報名人數已達到上限 <strong>{{ event.capacity }} 人</strong>，目前無法接受新報名。</p>
+            </div>
+            <div class="text-center mt-4">
+                <a href="{{ url_for('event.detail', event_id=event.id) }}" class="btn btn-secondary px-4">返回活動詳情</a>
+            </div>
+        {% else %}
+            <div class="alert alert-info mb-4">
+                目前尚有名額（上限 {{ event.capacity }} 人），請填寫以下資料完成報名。
+            </div>
+            <form action="{{ url_for('registration.create_registration', event_id=event.id) }}" method="POST">
+                <div class="mb-3">
+                    <label for="participant_name" class="form-label fw-semibold">真實姓名 <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control bg-light" id="participant_name" name="participant_name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-semibold">Email 信箱 <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control bg-light" id="email" name="email" required>
+                </div>
+                <div class="mb-4">
+                    <label for="phone" class="form-label fw-semibold">聯絡電話 <span class="text-danger">*</span></label>
+                    <input type="tel" class="form-control bg-light" id="phone" name="phone" required>
+                </div>
+                
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-success btn-lg shadow-sm">確認送出報名</button>
+                    <a href="{{ url_for('event.detail', event_id=event.id) }}" class="btn btn-light">取消返回</a>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

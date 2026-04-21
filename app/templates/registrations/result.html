@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center mt-5 py-5 bg-white rounded-3 shadow-sm mx-auto" style="max-width: 600px;">
+    {% if success %}
+        <div class="display-1 text-success mb-3 fw-bold">✓</div>
+        <h2 class="mb-3 fw-bold text-dark">{{ message }}</h2>
+        <p class="lead text-muted mb-5">您已成功報名 <strong class="text-primary">{{ event.title }}</strong>，請記得準時參加活動！</p>
+    {% else %}
+        <div class="display-1 text-danger mb-3 fw-bold">✗</div>
+        <h2 class="mb-3 fw-bold text-dark">{{ message }}</h2>
+        <p class="lead text-muted mb-5">很抱歉，因為額滿或其他原因，報名未能完成。</p>
+    {% endif %}
+    
+    <a href="{{ url_for('event.index') }}" class="btn btn-primary btn-lg px-5 shadow-sm">回首頁</a>
+</div>
+{% endblock %}

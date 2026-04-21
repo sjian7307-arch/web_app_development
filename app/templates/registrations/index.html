@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-1 fw-bold text-dark">報名名單管理</h2>
+        <p class="text-muted mb-0">活動：<span class="text-primary fw-semibold">{{ event.title }}</span> (報名上限: {{ event.capacity }} 人)</p>
+    </div>
+    <a href="{{ url_for('event.index') }}" class="btn btn-outline-secondary">返回列表</a>
+</div>
+
+<div class="card shadow border-0">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="ps-4">姓名</th>
+                        <th>Email</th>
+                        <th>電話</th>
+                        <th>報名時間</th>
+                        <th>狀態</th>
+                        <th class="pe-4">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reg in registrations %}
+                    <tr>
+                        <td class="ps-4 fw-semibold">{{ reg.participant_name }}</td>
+                        <td>{{ reg.email }}</td>
+                        <td>{{ reg.phone }}</td>
+                        <td class="text-muted small">{{ reg.created_at }}</td>
+                        <td>
+                            {% if reg.payment_status == 'paid' %}
+                                <span class="badge bg-success px-2 py-1">已繳費</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark px-2 py-1">未繳費</span>
+                            {% endif %}
+                        </td>
+                        <td class="pe-4">
+                            <form action="{{ url_for('registration.update_payment', registration_id=reg.id) }}" method="POST" class="d-inline m-0 p-0">
+                                {% if reg.payment_status == 'paid' %}
+                                    <input type="hidden" name="payment_status" value="unpaid">
+                                    <button type="submit" class="btn btn-sm btn-outline-warning">標記為未繳費</button>
+                                {% else %}
+                                    <input type="hidden" name="payment_status" value="paid">
+                                    <button type="submit" class="btn btn-sm btn-outline-success">標記為已繳費</button>
+                                {% endif %}
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center py-5 text-muted">
+                            <h5 class="mb-0">目前尚未有任何人報名。</h5>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
